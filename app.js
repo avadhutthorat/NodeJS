@@ -13,7 +13,7 @@ server.listen(3000);
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/admin", adminRouter);
+app.use(adminRouter);
 app.use(shopRouter);
 
 app.use((req, res, next) => {
