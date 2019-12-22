@@ -1,17 +1,16 @@
 const express = require("express");
+const path = require("path");
 
 const router = express.Router();
 
 // /admin/admin-product =>  GET
 router.get("/add-product", (req, res, next) => {
-  res.send(
-    "<body><form action='/admin/product' method='POST'><input type='text' name='title'></input><button type='submit'>Add Product</button></form></body>"
-  );
+  res.sendFile(path.join(__dirname, "../", "views", "admin.html"));
 });
 
 // you can use app.get , app.post, app.delete, app.use, app.patch for the specific methods
 // /admin/product =>  POST
-router.post("/product", (req, res, next) => {
+router.post("/add-product", (req, res, next) => {
   console.log(req.body);
   res.redirect("/");
 });
