@@ -7,11 +7,15 @@ const adminRouter = require("./routes/admin");
 const shopRouter = require("./routes/shop");
 
 const app = express();
+
+app.set("view engine", "pug"); // configuring pug for express
+app.set("views", "views"); // will look for view in views folder
+
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/admin", adminRouter);
+app.use("/admin", adminRouter.routes);
 app.use(shopRouter);
 
 app.use((req, res, next) => {
