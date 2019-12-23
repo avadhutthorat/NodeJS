@@ -1,11 +1,13 @@
 const express = require("express");
 const path = require("path");
 
+const rootDir = require("../utils/path");
+
 const router = express.Router();
 
 // /admin/admin-product =>  GET
 router.get("/add-product", (req, res, next) => {
-  res.sendFile(path.join(__dirname, "..", "views", "admin.html"));
+  res.sendFile(path.join(rootDir, "views", "admin.html"));
 });
 
 // you can use app.get , app.post, app.delete, app.use, app.patch for the specific methods
