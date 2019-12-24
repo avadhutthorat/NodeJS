@@ -5,6 +5,7 @@ const path = require("path");
 const rootDir = require("./utils/path");
 const adminRouter = require("./routes/admin");
 const shopRouter = require("./routes/shop");
+const errorController = require("./controllers/error");
 
 const app = express();
 
@@ -18,9 +19,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/admin", adminRouter);
 app.use(shopRouter);
 
-app.use((req, res, next) => {
-  // res.status(404).sendFile(path.join(rootDir, "views", "404.html"));
-  res.status(404).render("404.pug", { title: "Page Not Found" });
-});
+app.use(errorController.get404Page);
 
 app.listen(3000);
