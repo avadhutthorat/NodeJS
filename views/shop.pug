@@ -5,8 +5,8 @@ block styles
 
 block content
     if products.length > 0
-        each product in products
-            .grid
+       div.grid
+            each product in products
                 article.card.product-item
                     header.card__header
                         h1.product__title #{product.title}
