@@ -18,11 +18,15 @@ const getProductsFromFile = callback => {
 };
 
 module.exports = class Product {
-  constructor(title) {
+  constructor(title, imageUrl, price, description) {
     this.title = title;
+    this.imageUrl = imageUrl;
+    this.description = description;
+    this.price = price;
   }
 
   save() {
+    this.id = Math.floor(Math.random() * 10000).toString();
     getProductsFromFile(products => {
       products.push(this);
       fs.writeFile(filePath, JSON.stringify(products), err => {
@@ -34,4 +38,11 @@ module.exports = class Product {
   static fetchAll(callback) {
     getProductsFromFile(callback);
   }
+
+  static getProductById = (id, callback) => {
+    getProductsFromFile(products => {
+      let productDetail = products.find(prod => prod.id === id);
+      callback(productDetail);
+    });
+  };
 };
