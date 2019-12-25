@@ -46,9 +46,9 @@ exports.getCart = (req, res, next) => {
           cartProducts.push({ product: product, qty: cartProduct.qty });
         }
       }
-      console.log(cartProducts);
       res.render("shop/cart", {
         title: "My Cart",
+        path: "/cart",
         cart: cartProducts,
         totalPrice: cart.totalPrice
       });
@@ -61,8 +61,18 @@ exports.postCart = (req, res, next) => {
   const id = req.body.productId;
   Product.getProductById(id, product => {
     Cart.addProduct(id, product.price);
+    res.redirect("/cart");
   });
-  res.redirect("/cart");
+};
+
+// Deleting product from cart
+exports.deleteProductFromCart = (req, res, next) => {
+  let { deleteId } = req.body;
+  console.log(deleteId);
+  Product.getProductById(deleteId, product => {
+    Cart.deleteProductFromCart(deleteId, product.price);
+    res.redirect("/cart");
+  });
 };
 
 exports.orders = (req, res, next) => {
