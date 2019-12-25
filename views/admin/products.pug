@@ -13,13 +13,12 @@ block content
                     div.card__image
                         img(src=product.imageUrl, alt=product.title)
                     div.card__content
-                        h2.product__price $19.99
-                        p.product__description A very interesting book about so many even more interesting things!
+                        h2.product__price $#{product.price}
+                        p.product__description #{product.description}
                     div.card__actions
                         - var productId = product.id
                         a.btn(href="/admin/edit-product/" + productId) Edit
-                        form(action="/delete-product", method="post")
-                            button.btn Delete
+                        a.btn(href="/admin/delete-product/" + productId) Delete
     else    
         h1 No Products
 

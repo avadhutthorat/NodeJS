@@ -54,3 +54,10 @@ exports.getAdminProducts = (req, res, next) => {
     });
   });
 };
+
+// delete product
+exports.deleteProduct = (req, res, next) => {
+  let { productId } = req.params;
+  Product.deleteProduct(productId);
+  res.redirect("/admin/products");
+};
