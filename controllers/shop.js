@@ -16,7 +16,6 @@ exports.getProducts = (req, res, next) => {
 exports.getProductDetails = (req, res, next) => {
   let { productId } = req.params;
   Product.getProductById(productId, product => {
-    console.log(product);
     res.render("shop/product-detail", {
       product: product,
       path: "/products",
