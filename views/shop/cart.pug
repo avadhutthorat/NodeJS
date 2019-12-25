@@ -1,5 +1,11 @@
 extends ../layouts/main-layout.pug
 
 block content
-    h1 My Cart
-
+    if cart.length > 0
+        each cartItem in cart
+            ul
+                li #{cartItem.product.title} -- #{cartItem.qty}
+            hr
+        p Total Price = #{totalPrice}
+    else    
+        h1 No Products
