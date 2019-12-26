@@ -3,26 +3,37 @@ const Cart = require("../models/cart");
 
 // list products on product tab
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll()
-    .then(([row, metaData]) => {
+  Product.findAll()
+    .then(products => {
       res.render("shop/product-list", {
-        products: row,
+        products: products,
         title: "Products",
         path: "/products"
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(`Unable to fetch data from database - ${err}`));
 };
 
 // get product details
 exports.getProductDetails = (req, res, next) => {
   let { productId } = req.params;
-  Product.getProductById(productId)
-    .then(([productData]) => {
+
+  // Product.findAll({ where: { id: productId } })
+  //   .then(product => {
+  //     res.render("shop/product-detail", {
+  //       product: product[0],
+  //       path: "/products",
+  //       title: product.title
+  //     });
+  //   })
+  //   .catch(err => console.log(err));
+  // alternate way to fetch single record
+  Product.findByPk(productId)
+    .then(product => {
       res.render("shop/product-detail", {
-        product: productData[0],
+        product: product,
         path: "/products",
-        title: productData.title
+        title: product.title
       });
     })
     .catch(err => console.log(`failed to load the product detail - ${err}`));
@@ -30,15 +41,15 @@ exports.getProductDetails = (req, res, next) => {
 
 //list products on homepage
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll()
-    .then(([row, metaData]) => {
+  Product.findAll()
+    .then(products => {
       res.render("shop/index", {
-        products: row,
+        products: products,
         title: "Shop",
         path: "/index"
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(`Unable to fetch data from database - ${err}`));
 };
 
 // get products added to cart

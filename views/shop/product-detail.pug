@@ -8,7 +8,7 @@ block content
         h1 #{product.title}
         hr
         - var url = product.imageUrl
-        img(src=url, alt="Book")
+        img.image(src=url, alt="Book")
         h2 $#{product.price}
         p #{product.description}
         form(action="/cart", method="post")

@@ -52,13 +52,22 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getAdminProducts = (req, res, next) => {
-  Product.fetchAll(products => {
-    res.render("admin/products", {
-      products: products,
-      title: "Admin Product",
-      path: "/admin/products"
-    });
-  });
+  Product.findAll()
+    .then(products => {
+      res.render("admin/products", {
+        products: products,
+        title: "Admin Product",
+        path: "/admin/products"
+      });
+    })
+    .catch(err => console.log(err));
+  // Product.fetchAll(products => {
+  //   res.render("admin/products", {
+  //     products: products,
+  //     title: "Admin Product",
+  //     path: "/admin/products"
+  //   });
+  // });
 };
 
 // delete product
