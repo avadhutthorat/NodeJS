@@ -25,14 +25,25 @@ exports.editProduct = (req, res, next) => {
 // Add product
 exports.postAddProduct = (req, res, next) => {
   let { title, imageUrl, price, description } = req.body;
-  Product.create({
-    title: title,
-    price: price,
-    imageUrl: imageUrl,
-    description: description
-  })
+  req.user
+    .createProduct({
+      title: title,
+      price: price,
+      imageUrl: imageUrl,
+      description: description
+    })
     .then(() => res.redirect("/admin/products"))
     .catch(err => console.log(`Error while post data to database - ${err}`));
+  // Alternate way
+  // Product.create({
+  //   title: title,
+  //   price: price,
+  //   imageUrl: imageUrl,
+  //   description: description,
+  //   userId: req.user.id
+  // })
+  //   .then(() => res.redirect("/admin/products"))
+  //   .catch(err => console.log(`Error while post data to database - ${err}`));
 };
 
 // save edited product
