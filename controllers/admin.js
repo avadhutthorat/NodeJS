@@ -11,12 +11,14 @@ exports.getAddProduct = (req, res, next) => {
 // get values for editing of product
 exports.editProduct = (req, res, next) => {
   let { productId } = req.params;
-  Product.findByPk(productId)
+  // Product.findByPk(productId) // alternate way
+  req.user
+    .getProducts({ where: { id: productId } }) // get product for editing for logged in user
     .then(product => {
       res.render("admin/edit-product", {
         title: "Edit Product",
         path: "/admin/products",
-        product: product
+        product: product[0]
       });
     })
     .catch(err => res.redirect("/"));
@@ -63,7 +65,9 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getAdminProducts = (req, res, next) => {
-  Product.findAll()
+  // Product.findAll()
+  req.user
+    .getProducts()
     .then(products => {
       res.render("admin/products", {
         products: products,
