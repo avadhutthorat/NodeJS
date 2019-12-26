@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-const db = require("./utils/database");
+const sequelize = require("./utils/database");
 
 const rootDir = require("./utils/path");
 const adminRouter = require("./routes/admin");
@@ -17,18 +17,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// db.execute("SELECT * FROM products")
-//   .then(result => {
-//     const data = result[0];
-//     console.log(data);
-//   })
-//   .catch(err => {
-//     console.log(err);
-//   });
-
 app.use("/admin", adminRouter);
 app.use(shopRouter);
 
 app.use(errorController.get404Page);
 
-app.listen(3000);
+sequelize
+  .sync()
+  .then(() => {
+    app.listen(3000);
+  })
+  .catch(err => console.log("Unable start the connection with database"));

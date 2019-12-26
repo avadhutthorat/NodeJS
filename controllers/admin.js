@@ -23,16 +23,17 @@ exports.editProduct = (req, res, next) => {
   });
 };
 
+// Add product
 exports.postAddProduct = (req, res, next) => {
   let { title, imageUrl, price, description } = req.body;
-  const products = new Product(title, imageUrl, price, description);
-
-  products
-    .save()
-    .then(() => {
-      res.redirect("/");
-    })
-    .catch(err => console.log(`Unable to save the data ${err}`));
+  Product.create({
+    title: title,
+    price: price,
+    imageUrl: imageUrl,
+    description: description
+  })
+    .then(() => res.redirect("/"))
+    .catch(err => console.log(`Error while post data to database - ${err}`));
 };
 
 // save edited product
