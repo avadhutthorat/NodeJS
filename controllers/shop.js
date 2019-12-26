@@ -17,20 +17,21 @@ exports.getProducts = (req, res, next) => {
 // get product details
 exports.getProductDetails = (req, res, next) => {
   let { productId } = req.params;
-  Product.getProductById(productId, product => {
-    res.render("shop/product-detail", {
-      product: product,
-      path: "/products",
-      title: product.title
-    });
-  });
+  Product.getProductById(productId)
+    .then(([productData]) => {
+      res.render("shop/product-detail", {
+        product: productData[0],
+        path: "/products",
+        title: productData.title
+      });
+    })
+    .catch(err => console.log(`failed to load the product detail - ${err}`));
 };
 
 //list products on homepage
 exports.getIndex = (req, res, next) => {
   Product.fetchAll()
     .then(([row, metaData]) => {
-      console.log(row[0].length);
       res.render("shop/index", {
         products: row,
         title: "Shop",
