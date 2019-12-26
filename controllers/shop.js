@@ -1,15 +1,17 @@
 const Product = require("../models/product");
 const Cart = require("../models/cart");
 
+// list products on product tab
 exports.getProducts = (req, res, next) => {
-  // res.sendFile(path.join(rootDir, "views", "shop.html"));
-  Product.fetchAll(products => {
-    res.render("shop/product-list", {
-      products: products,
-      title: "Products",
-      path: "/products"
-    });
-  });
+  Product.fetchAll()
+    .then(([row, metaData]) => {
+      res.render("shop/product-list", {
+        products: row,
+        title: "Products",
+        path: "/products"
+      });
+    })
+    .catch(err => console.log(err));
 };
 
 // get product details
@@ -24,15 +26,18 @@ exports.getProductDetails = (req, res, next) => {
   });
 };
 
-//products router
+//list products on homepage
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll(products => {
-    res.render("shop/index", {
-      products: products,
-      title: "Shop",
-      path: "/index"
-    });
-  });
+  Product.fetchAll()
+    .then(([row, metaData]) => {
+      console.log(row[0].length);
+      res.render("shop/index", {
+        products: row,
+        title: "Shop",
+        path: "/index"
+      });
+    })
+    .catch(err => console.log(err));
 };
 
 // get products added to cart

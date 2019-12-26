@@ -26,8 +26,13 @@ exports.editProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
   let { title, imageUrl, price, description } = req.body;
   const products = new Product(title, imageUrl, price, description);
-  products.save();
-  res.redirect("/");
+
+  products
+    .save()
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch(err => console.log(`Unable to save the data ${err}`));
 };
 
 // save edited product

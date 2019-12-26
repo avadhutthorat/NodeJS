@@ -17,14 +17,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-db.execute("SELECT * FROM products")
-  .then(result => {
-    const data = result[0];
-    console.log(data);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+// db.execute("SELECT * FROM products")
+//   .then(result => {
+//     const data = result[0];
+//     console.log(data);
+//   })
+//   .catch(err => {
+//     console.log(err);
+//   });
 
 app.use("/admin", adminRouter);
 app.use(shopRouter);
