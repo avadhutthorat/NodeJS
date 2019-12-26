@@ -31,7 +31,7 @@ exports.postAddProduct = (req, res, next) => {
     imageUrl: imageUrl,
     description: description
   })
-    .then(() => res.redirect("/"))
+    .then(() => res.redirect("/admin/products"))
     .catch(err => console.log(`Error while post data to database - ${err}`));
 };
 
@@ -66,6 +66,11 @@ exports.getAdminProducts = (req, res, next) => {
 // delete product
 exports.deleteProduct = (req, res, next) => {
   let { productId } = req.params;
-  Product.deleteProduct(productId);
-  res.redirect("/admin/products");
+  Product.destroy({
+    where: {
+      id: productId
+    }
+  })
+    .then(() => res.redirect("/admin/products"))
+    .catch(err => console.log(`error while deleting ${err}`));
 };
