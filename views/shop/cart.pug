@@ -5,13 +5,13 @@ block styles
 
 block content
     if cart.length > 0
-        each cartItem in cart
+        each item in cart
             ul
                 li 
-                    p #{cartItem.product.title} -- #{cartItem.qty}
+                    p #{item.title} -- #{item.cartItem.quantity}
                     form(action="/delete-item-cart", method="post")
                         button.btn(type="submit") Delete
-                        input(type="hidden", name="deleteId", value=cartItem.product.id)
+                        input(type="hidden", name="deleteId", value=item.id)
             hr
         p Total Price = #{totalPrice}
     else    

@@ -9,6 +9,8 @@ const shopRouter = require("./routes/shop");
 const errorController = require("./controllers/error");
 const Product = require("./models/product");
 const User = require("./models/user");
+const Cart = require("./models/cart");
+const CartItem = require("./models/cart-item");
 
 const app = express();
 
@@ -31,11 +33,12 @@ app.use(shopRouter);
 
 app.use(errorController.get404Page);
 
-Product.belongsTo(User, { constraints: true, onDelete: "cascade" });
-User.hasMany(Product);
-
 Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
 
 // sync({ force: true }) - use this when you want to overwrite the tables
 sequelize
@@ -50,8 +53,9 @@ sequelize
     return user;
   })
   .then(user => {
-    app.listen(3000);
+    return user.createCart();
   })
+  .then(() => app.listen(3000))
   .catch(err => {
     console.log(err);
   });
