@@ -125,6 +125,30 @@ exports.orders = (req, res, next) => {
   res.render("shop/orders", { title: "My Orders" });
 };
 
+exports.postCreateOrder = (req, res, next) => {
+  req.user
+    .getCart()
+    .then(cart => {
+      console.log(`My cart ${cart}`);
+      return cart.getProducts();
+    })
+    .then(products => {
+      return req.user
+        .createOrder()
+        .then(order => {
+          order.addProducts(
+            products.map(product => {
+              product.orderItem = { quantity: product.cartItem.quantity };
+              return product;
+            })
+          );
+        })
+        .catch(err => console.log(err));
+    })
+    .then(() => res.redirect("/orders"))
+    .catch(err => console.log(`error while create order - ${err}`));
+};
+
 // checkout router
 exports.checkout = (req, res, next) => {
   res.render("shop/checkout", { title: "Checkout" });
