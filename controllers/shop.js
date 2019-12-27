@@ -57,7 +57,11 @@ exports.getCart = (req, res, next) => {
   req.user
     .getCart()
     .then(cart => {
-      return cart.getProducts();
+      if (cart) {
+        return cart.getProducts();
+      } else {
+        return [];
+      }
     })
     .then(product => {
       res.render("shop/cart", {
