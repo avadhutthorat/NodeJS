@@ -105,11 +105,16 @@ exports.postCart = (req, res, next) => {
 // Deleting product from cart
 exports.deleteProductFromCart = (req, res, next) => {
   let { deleteId } = req.body;
-  console.log(deleteId);
-  Product.getProductById(deleteId, product => {
-    Cart.deleteProductFromCart(deleteId, product.price);
-    res.redirect("/cart");
-  });
+  req.user
+    .getCart()
+    .then(cart => {
+      return cart.getProducts({ where: { id: deleteId } });
+    })
+    .then(products => {
+      return products[0].cartItem.destroy();
+    })
+    .then(() => res.redirect("/cart"))
+    .catch(err => console.log(err));
 };
 
 exports.orders = (req, res, next) => {
